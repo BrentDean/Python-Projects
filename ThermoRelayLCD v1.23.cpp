@@ -11,59 +11,59 @@
 
 ////DHT
 #include <Arduino.h>
-#include "DHT.h"                  					//// Include DHT Library  
-#define DHTPIN 4                  					//// Define DHT11 Pin - 4
+#include "DHT.h"                  				//// Include DHT Library  
+#define DHTPIN 4                  				//// Define DHT11 Pin - 4
 #define DHTTYPE DHT11               				//// Define Sensor Type - DHT11
 DHT dht(DHTPIN, DHTTYPE);             				//// Initialize the DHT11 Sensor
 
 ////Liquid Crystal I2C
 #include <LiquidCrystal_I2C.h>            			//// Include LiquidCrystal_I2C Library
-LiquidCrystal_I2C lcd(0x27, 16, 2);                 //// 0x27 is LCD I2C Address
+LiquidCrystal_I2C lcd(0x27, 16, 2);                		//// 0x27 is LCD I2C Address
 
 ////Starting Variable Definitions --- What should these be set to?
-int Moisture = 0;                					//// Stores Moisture Values
-int LimT = 75;                    					//// Stores Temp Limit Value After Edit
+int Moisture = 0;                				//// Stores Moisture Values
+int LimT = 75;                    				//// Stores Temp Limit Value After Edit
 int SoilTarget = 75;                  				//// Stores Soil Moisture Value (Target) After Edit
-int SoilWet = 50;                  					//// Stores Soil Moisture Value (Wet) After Edit
-int SoilDry = 75;                  					//// Stores Soil Moisture Value (Dry) After Edit
+int SoilWet = 50;                  				//// Stores Soil Moisture Value (Wet) After Edit
+int SoilDry = 75;                  				//// Stores Soil Moisture Value (Dry) After Edit
 int relay1_state;                      				//// Stores State of relay1
 int relay2_state;                      				//// Stores State of relay2
-//int startTime = 6; 								//// Integer hour in 24hr format to start lights
-//int endTime = 22; 								//// Integer hour in 24hr format to cut the lights
+//int startTime = 6; 						//// Integer hour in 24hr format to start lights
+//int endTime = 22; 						//// Integer hour in 24hr format to cut the lights
 
 ////Pin Definitions || LCD CHEAT SHEET (SCL = A5, SDA =A4)
-const int relay1_pin = 9;                           //// Light Relay GPIO
+const int relay1_pin = 9;                           		//// Light Relay GPIO
 const int relay2_pin = 8;             				//// Water Relay GPIO
-const int LED1 = 7;									//// LED1-Red (System Active) GPIO
-const int LED2 = 6;									//// LED2-Green (System Idle) GPIO
+const int LED1 = 7;						//// LED1-Red (System Active) GPIO
+const int LED2 = 6;						//// LED2-Green (System Idle) GPIO
 const int pot1 = A1;                				//// Potentiometer to Change Temp Threshold GPIO
 const int pot2 = A2;                				//// Potentiometer to Change Soil Moisture Threshold GPIO
 const int soilPower = 2;              				//// Soil Sensor Power GPIO
 const int soilSensor = A0;              			//// Soil Sensor Data GPIO
-//const int piezoPin = 13;							//// Piezo Buzzer GPIO
-//const int pwm_pin = XX;							//// PWM GPIO (ASSIGN #XX)
+//const int piezoPin = 13;					//// Piezo Buzzer GPIO
+//const int pwm_pin = XX;					//// PWM GPIO (ASSIGN #XX)
 
 
 ////Start Setup - Initialize and Set Pin Modes
 void setup() {
- Serial.begin(9600);                                //// Initialize Serial Monitor at baud 9600
+ Serial.begin(9600);                                		//// Initialize Serial Monitor at baud 9600
  
- dht.begin();                                       //// Initialize the DHT Temp Sensor
+ dht.begin();                                       		//// Initialize the DHT Temp Sensor
  
- lcd.backlight();                                   //// Turn on lcd backlight
- lcd.init();                                        //// Initialize lcd
+ lcd.backlight();                                   		//// Turn on lcd backlight
+ lcd.init();                                        		//// Initialize lcd
  
- pinMode(pot1, INPUT);                				    //// Set Potentiometer1 as Input
- pinMode(pot2, INPUT);                			       //// Set Potentiometer2 as Input
+ pinMode(pot1, INPUT);                				//// Set Potentiometer1 as Input
+ pinMode(pot2, INPUT);                			       	//// Set Potentiometer2 as Input
  
- pinMode(LED1, OUTPUT);								       //// Set LED1 as Output
- pinMode(LED2, OUTPUT); 							       //// Set LED2 as Output
+ pinMode(LED1, OUTPUT);						//// Set LED1 as Output
+ pinMode(LED2, OUTPUT); 					//// Set LED2 as Output
  
- pinMode(relay1_pin, OUTPUT);                       //// Set relay_pin1 as Output
- digitalWrite(relay1_pin, LOW);                     //// Set relay_pin1 initial state LOW
+ pinMode(relay1_pin, OUTPUT);                      		//// Set relay_pin1 as Output
+ digitalWrite(relay1_pin, LOW);                     		//// Set relay_pin1 initial state LOW
  
- pinMode(relay2_pin, OUTPUT);                       //// Set relay_pin2 as Output
- digitalWrite(relay2_pin, LOW);                     //// Set relay_pin2 initial state LOW
+ pinMode(relay2_pin, OUTPUT);                       		//// Set relay_pin2 as Output
+ digitalWrite(relay2_pin, LOW);                     		//// Set relay_pin2 initial state LOW
 }
 
 ////Start Loop
